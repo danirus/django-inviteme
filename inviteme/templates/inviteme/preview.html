@@ -1,0 +1,9 @@
+{% extends "inviteme/base.html" %}
+
+{% block title %}{{ block.super }}&nbsp;&raquo;&nbsp;preview{% endblock %}
+
+{% block content %}
+  <H4>Request invitation</H4>
+
+  {% include "inviteme/form.html" %}
+{% endblock %}

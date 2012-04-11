@@ -1,0 +1,5 @@
+{% autoescape off %}
+There is a new invitation request from: {{ contact_mail.email }}
+--
+{{ site }}
+{% endautoescape %}

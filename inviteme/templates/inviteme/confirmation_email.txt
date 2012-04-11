@@ -1,0 +1,15 @@
+{% load i18n %}
+{% load url from future %}
+{% autoescape off %}
+{% blocktrans %}You, or someone in behalf of you, have requested an invitation to {{ site }}.{% endblocktrans %}
+
+{% blocktrans %}Click on the link below to confirm the message. If you did not request the invitation, either ignore the link or report an incident to {{ support_email }}.{% endblocktrans %}
+
+http://{{ site.domain }}{% url 'inviteme-confirm-mail' key %}
+
+{% trans "If clicking does not work, you can also copy and paste the link into your browser's address window." %}
+
+--
+{% trans "Kind regards" %},
+{{ site }}
+{% endautoescape %}

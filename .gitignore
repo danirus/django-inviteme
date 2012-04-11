@@ -1,0 +1,9 @@
+*.pyc
+*~
+*.*~
+*.zip
+*.db
+docs/_build
+django_inviteme.egg-info/
+build/
+dist/

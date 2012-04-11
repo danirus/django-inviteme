@@ -1,0 +1,7 @@
+{% extends "inviteme/base.html" %}
+
+{% block content %}
+  {% load inviteme_tags %}
+  <H4>Request an invitation</H4>
+  {% render_mail_form %}
+{% endblock %}
