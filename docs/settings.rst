@@ -4,24 +4,11 @@
 Settings
 ========
 
-This is the comprehensive list of settings Django-contactme recognizes.
-
-``CONTACTME_MSG_MAX_LEN``
-=========================
-
-**Optional**
-
-This setting establish the maximum length of the message a user may write in the form.
-
-An example::
-
-     CONTACTME_MSG_MAX_LEN = 3000
-
-Defaults to 3000.
+This is the comprehensive list of settings django-inviteme recognizes.
 
 
-``CONTACTME_SALT``
-==================
+``INVITEME_SALT``
+=================
 
 **Optional**
 
@@ -29,13 +16,13 @@ This setting establish the ASCII string extra_key used by ``signed.dumps`` to sa
 
 An example::
 
-     CONTACTME_SALT = 'G0h5gt073h6gH4p25GS2g5AQ25hTm256yGt134tMP5TgCX$&HKOYRV'
+     INVITEME_SALT = 'G0h5gt073h6gH4p25GS2g5AQ25hTm256yGt134tMP5TgCX$&HKOYRV'
 
 Defaults to an empty string.
 
 
-``CONTACTME_NOTIFY_TO``
-=======================
+``INVITEME_NOTIFY_TO``
+======================
 
 **Optional**
 
@@ -43,6 +30,6 @@ This setting establish the email address that will be notified on new contact me
 
 An example::
 
-     CONTACTME_NOTIFY_TO = 'Alice <alice@example.com>, Joe <joe@example.com>'
+     INVITEME_NOTIFY_TO = 'Alice <alice@example.com>, Joe <joe@example.com>'
 
 Defaults to ``settings.ADMINS``.
