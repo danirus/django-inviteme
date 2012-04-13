@@ -1,0 +1,15 @@
+{% load i18n %}
+{% load url from future %}
+{% autoescape off %}
+<p>{% blocktrans %}You, or someone in behalf of you, have requested an invitation to {{ site }}.{% endblocktrans %}</p>
+
+<p>{% blocktrans %}Click on the link below to confirm the message. If you did not request the invitation, either ignore the link or report an incident to {{ support_email }}.{% endblocktrans %}</p>
+
+<p><a href="http://{{ site.domain }}{{ confirmation_url }}">http://{{ site.domain }}{{ confirmation_url|slice:":40" }}...</a></p>
+
+<p>{% trans "If clicking does not work, you can also copy and paste the link into your browser's address window." %}</p>
+
+<p>{% trans "Kind regards" %}<br/>
+--<br/>
+{{ site }}<br/>
+{% endautoescape %}</p>

@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.sites.models import Site
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponseBadRequest, Http404
 from django.shortcuts import render_to_response
 from django.template import loader, Context, RequestContext
@@ -31,19 +32,36 @@ class ContactMailPostBadRequest(HttpResponseBadRequest):
             self.content = render_to_string("inviteme/400-debug.html", {"why": why})
 
 
-def send_confirmation_email(data, key, template="inviteme/confirmation_email.txt"):
+def send_confirmation_email(data, key, text_template="inviteme/confirmation_email.txt", html_template="inviteme/confirmation_email.html"):
     """
     Render message and send contact_mail confirmation email
     """
     site = Site.objects.get_current()
     subject = "[%s] %s" % (site.name, _("confirm invitation request"))
-    message_template = loader.get_template(template)
-    message_context = Context({ 'data': data,
-                                 'key': key,
-                       'support_email': DEFAULT_FROM_EMAIL,
-                                'site': site })
-    message = message_template.render(message_context)
-    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [data['email']])
+    confirmation_url = reverse("inviteme-confirm-mail", args=[key])
+
+    # prepare text message
+    text_message_template = loader.get_template(text_template)
+    text_message_context = Context({ 'data': data,
+                                     'confirmation_url': confirmation_url,
+                                     'support_email': DEFAULT_FROM_EMAIL,
+                                     'site': site })
+    text_message = text_message_template.render(text_message_context)
+
+    # prepare html message
+    html_message_template = loader.get_template(html_template)
+    html_message_context = Context({ 'data': data, 
+                                     'confirmation_url': confirmation_url,
+                                     'support_email': DEFAULT_FROM_EMAIL,
+                                     'site': site })
+    html_message = html_message_template.render(html_message_context)
+
+    # create message
+    message = EmailMultiAlternatives(subject, text_message, 
+                                     DEFAULT_FROM_EMAIL,
+                                     [ data["email"], ])
+    message.attach_alternative(html_message, "text/html")
+    message.send()
 
 
 def send_request_received_email(contact_mail, template="inviteme/request_received_email.txt"):
@@ -98,7 +116,6 @@ def post_form(request, next=None, template_preview="inviteme/preview.html", temp
                                   RequestContext(request, {}))
 
     contact_mail_data = form.get_instance_data()
-
     # Signal that a confirmation is about to be requested
     responses = signals.confirmation_will_be_requested.send(
         sender=form.__class__, data=contact_mail_data, request=request)

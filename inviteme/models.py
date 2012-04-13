@@ -11,7 +11,7 @@ class ContactMail(models.Model):
     An incoming message from a site visitor.
     """
     site = models.ForeignKey(Site)
-    email = models.EmailField(_("Contact's email address"))
+    email = models.EmailField(_("Contact's email address"), primary_key=True)
     submit_date = models.DateTimeField(_("Date/Time submitted"), default=None)
     ip_address  = models.IPAddressField(_('IP address'), blank=True, null=True)
     

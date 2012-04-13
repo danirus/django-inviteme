@@ -5,11 +5,11 @@
 
 {% blocktrans %}Click on the link below to confirm the message. If you did not request the invitation, either ignore the link or report an incident to {{ support_email }}.{% endblocktrans %}
 
-http://{{ site.domain }}{% url 'inviteme-confirm-mail' key %}
+http://{{ site.domain }}{{ confirmation_url }}
 
 {% trans "If clicking does not work, you can also copy and paste the link into your browser's address window." %}
 
+{% trans "Kind regards" %}
 --
-{% trans "Kind regards" %},
 {{ site }}
 {% endautoescape %}
