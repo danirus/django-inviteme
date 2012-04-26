@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.contrib.sites.models import Site
-from django.core.mail import send_mail, EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponseBadRequest, Http404
 from django.shortcuts import render_to_response
@@ -12,6 +11,7 @@ from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _
 
 from inviteme import signals, signed
+from inviteme.utils import send_mail
 from inviteme.models import ContactMail
 from inviteme.forms import ContactMailForm
 
