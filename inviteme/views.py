@@ -56,12 +56,7 @@ def send_confirmation_email(data, key, text_template="inviteme/confirmation_emai
                                      'site': site })
     html_message = html_message_template.render(html_message_context)
 
-    # create message
-    message = EmailMultiAlternatives(subject, text_message, 
-                                     DEFAULT_FROM_EMAIL,
-                                     [ data["email"], ])
-    message.attach_alternative(html_message, "text/html")
-    message.send()
+    send_mail(subject, text_message, DEFAULT_FROM_EMAIL, [data['email'],], html=html_message)
 
 
 def send_request_received_email(contact_mail, template="inviteme/request_received_email.txt"):
