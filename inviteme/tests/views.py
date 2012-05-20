@@ -1,5 +1,7 @@
 import re
+import threading
 
+from django.conf import settings
 from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -84,6 +86,9 @@ class PostFormViewTestCase(TestCase):
                                 "inviteme/confirmation_sent.html")
 
 
+def enumerate_email_threads():
+    return [t for t in threading.enumerate() if t.name == settings.INVITEME_EMAIL_THREAD_NAME]
+
 class ConfirmMailViewTestCase(TestCase):
 
     def setUp(self):
@@ -98,6 +103,8 @@ class ConfirmMailViewTestCase(TestCase):
                 'email':         'alice.bloggs@example.com'}
         self.response = self.client.post(
             reverse("inviteme-post-form"), data=data)        
+        while len(enumerate_email_threads()):
+            pass
         self.url = re.search(r'http://[\S]+', mail.outbox[0].body).group()
 
     def get_confirm_mail_url(self, key):

@@ -1,7 +1,7 @@
 """
 django_inviteme - Email address submission extension for Django, with email verification
 """
-VERSION = (1, 0, 0, 'a', 1) # following PEP 386
+VERSION = (1, 0, 0, 'a', 2) # following PEP 386
 
 def get_version():
     version = '%s.%s' % (VERSION[0], VERSION[1])

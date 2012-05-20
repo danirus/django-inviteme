@@ -39,22 +39,17 @@ def send_confirmation_email(data, key, text_template="inviteme/confirmation_emai
     site = Site.objects.get_current()
     subject = "[%s] %s" % (site.name, _("confirm invitation request"))
     confirmation_url = reverse("inviteme-confirm-mail", args=[key])
+    message_context = Context({ 'data': data,
+                                'confirmation_url': confirmation_url,
+                                'support_email': DEFAULT_FROM_EMAIL,
+                                'site': site })
 
     # prepare text message
     text_message_template = loader.get_template(text_template)
-    text_message_context = Context({ 'data': data,
-                                     'confirmation_url': confirmation_url,
-                                     'support_email': DEFAULT_FROM_EMAIL,
-                                     'site': site })
-    text_message = text_message_template.render(text_message_context)
-
+    text_message = text_message_template.render(message_context)
     # prepare html message
     html_message_template = loader.get_template(html_template)
-    html_message_context = Context({ 'data': data, 
-                                     'confirmation_url': confirmation_url,
-                                     'support_email': DEFAULT_FROM_EMAIL,
-                                     'site': site })
-    html_message = html_message_template.render(html_message_context)
+    html_message = html_message_template.render(message_context)
 
     send_mail(subject, text_message, DEFAULT_FROM_EMAIL, [data['email'],], html=html_message)
 
