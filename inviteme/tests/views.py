@@ -9,6 +9,7 @@ from django.test import TestCase
 from inviteme import signals, signed
 from inviteme.models import ContactMail
 from inviteme.views import INVITEME_SALT
+from inviteme.utils import mail_sent_queue
 
 
 class GetFormViewTestCase(TestCase):
@@ -86,9 +87,6 @@ class PostFormViewTestCase(TestCase):
                                 "inviteme/confirmation_sent.html")
 
 
-def enumerate_email_threads():
-    return [t for t in threading.enumerate() if t.name == settings.INVITEME_EMAIL_THREAD_NAME]
-
 class ConfirmMailViewTestCase(TestCase):
 
     def setUp(self):
@@ -103,7 +101,7 @@ class ConfirmMailViewTestCase(TestCase):
                 'email':         'alice.bloggs@example.com'}
         self.response = self.client.post(
             reverse("inviteme-post-form"), data=data)        
-        while len(enumerate_email_threads()):
+        if mail_sent_queue.get(block=True):
             pass
         self.url = re.search(r'http://[\S]+', mail.outbox[0].body).group()
 

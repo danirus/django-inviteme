@@ -9,7 +9,7 @@ test.run_tests = run_tests
 
 setup(
     name = "django-inviteme",
-    version = "1.0a1",
+    version = "1.0a2",
     packages = find_packages(),
     license = "MIT",
     description = "Django invite-me form App with email verification",
