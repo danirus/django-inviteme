@@ -74,7 +74,8 @@ class ContactMailSecurityForm(forms.Form):
 class ContactMailForm(ContactMailSecurityForm):
 
     email = forms.EmailField(label=_("Email address"), max_length=200, 
-                             widget=forms.TextInput(attrs={"maxlength":200}),
+                             widget=forms.TextInput(attrs={"maxlength":200, 
+                                                           "placeholder":"Email"}),
                              help_text=_("Required for verification"))
 
     def get_instance_data(self):
